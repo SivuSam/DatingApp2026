@@ -1,0 +1,170 @@
+<div class="container mx-auto px-4 py-8">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold mb-4">{{ model.pageTitle }}</h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">{{ model.introText }}</p>
+    </div>
+    <div class="flex flex-wrap -mx-3">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-3 mb-6">
+            <div class="card bg-base-100 shadow-xl h-full">
+                <div class="card-body">
+                    <div class="flex items-start gap-3 mb-2">
+                        <div class="w-8 h-8 text-primary flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h2 class="card-title">{{ model.feature1Title }}</h2>
+                                @if (model.feature1IsNew) {
+                                <span class="badge badge-secondary badge-sm">NEW</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-3">{{ model.feature1Description }}</p>
+                    <div class="mt-auto">
+                        <span class="badge badge-outline">{{ model.feature1Category }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-3 mb-6">
+            <div class="card bg-base-100 shadow-xl h-full">
+                <div class="card-body">
+                    <div class="flex items-start gap-3 mb-2">
+                        <div class="w-8 h-8 text-primary flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h2 class="card-title">{{ model.feature2Title }}</h2>
+                                @if (model.feature2IsNew) {
+                                <span class="badge badge-secondary badge-sm">NEW</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-3">{{ model.feature2Description }}</p>
+                    <div class="mt-auto">
+                        <span class="badge badge-outline">{{ model.feature2Category }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-3 mb-6">
+            <div class="card bg-base-100 shadow-xl h-full">
+                <div class="card-body">
+                    <div class="flex items-start gap-3 mb-2">
+                        <div class="w-8 h-8 text-primary flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h2 class="card-title">{{ model.feature3Title }}</h2>
+                                @if (model.feature3IsNew) {
+                                <span class="badge badge-secondary badge-sm">NEW</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-3">{{ model.feature3Description }}</p>
+                    <div class="mt-auto">
+                        <span class="badge badge-outline">{{ model.feature3Category }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-3 mb-6">
+            <div class="card bg-base-100 shadow-xl h-full">
+                <div class="card-body">
+                    <div class="flex items-start gap-3 mb-2">
+                        <div class="w-8 h-8 text-primary flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h2 class="card-title">{{ model.feature4Title }}</h2>
+                                @if (model.feature4IsNew) {
+                                <span class="badge badge-secondary badge-sm">NEW</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-3">{{ model.feature4Description }}</p>
+                    <div class="mt-auto">
+                        <span class="badge badge-outline">{{ model.feature4Category }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-3 mb-6">
+            <div class="card bg-base-100 shadow-xl h-full">
+                <div class="card-body">
+                    <div class="flex items-start gap-3 mb-2">
+                        <div class="w-8 h-8 text-primary flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h2 class="card-title">{{ model.feature5Title }}</h2>
+                                @if (model.feature5IsNew) {
+                                <span class="badge badge-secondary badge-sm">NEW</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-3">{{ model.feature5Description }}</p>
+                    <div class="mt-auto">
+                        <span class="badge badge-outline">{{ model.feature5Category }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-3 mb-6">
+            <div class="card bg-base-100 shadow-xl h-full">
+                <div class="card-body">
+                    <div class="flex items-start gap-3 mb-2">
+                        <div class="w-8 h-8 text-primary flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h2 class="card-title">{{ model.feature6Title }}</h2>
+                                @if (model.feature6IsNew) {
+                                <span class="badge badge-secondary badge-sm">NEW</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-3">{{ model.feature6Description }}</p>
+                    <div class="mt-auto">
+                        <span class="badge badge-outline">{{ model.feature6Category }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
