@@ -15,7 +15,7 @@ import { AccountService } from '../../../core/services/account-service';
 })
 export class MemberProfile implements OnInit ,OnDestroy{
 
-  @ViewChild('editform')editForm?:NgForm;
+  @ViewChild('editForm')editForm?:NgForm;
   @HostListener('window:beforeunload',['$event']) notify($event:BeforeUnloadEvent){
     if (this.editForm?.dirty){
       $event.preventDefault();
