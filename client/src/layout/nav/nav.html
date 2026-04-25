@@ -23,6 +23,7 @@
              Matches</a>
             <a routerLink="/lists" routerLinkActive="text-accent">Lists</a>
             <a routerLink="/messages" routerLinkActive="text-accent">Messages</a>
+            <a *appHasRole="['Admin' , 'Moderator']" routerLink="/admin" routerLinkActive="text-accent">Admin</a>
 
             }
             <!-- Used Gent Tool to debug and fix anonymous user-->
