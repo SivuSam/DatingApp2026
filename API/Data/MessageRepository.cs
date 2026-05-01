@@ -9,6 +9,35 @@ namespace API.Data;
 
 public class MessageRepository(AppDbContext context) : IMessageRepository
 {
+    public void AddGroup(Group group)
+    {
+        context.Groups.Add(group);
+    }
+
+    public async Task RemoveConnection(string connectionId)
+    {
+        await context.Connections.Where(c => c.ConnectionId == connectionId).ExecuteDeleteAsync();  
+    }
+
+    public async Task<Connection?> GetConnection(string connectionId)
+    {
+        return await context.Connections.FindAsync(connectionId);
+    }
+
+    public async Task<Group?> GetMessageGroup(string groupName)
+    {
+        return await context.Groups
+            .Include(g => g.Connections)
+            .FirstOrDefaultAsync(g => g.Name == groupName);
+    }
+
+    public async Task<Group?> GetGroupForConnection(string connectionId)
+    {
+        return await context.Groups
+            .Include(g => g.Connections)
+            .Where(g => g.Connections.Any(c => c.ConnectionId == connectionId))
+            .FirstOrDefaultAsync();
+    }
     public void AddMessage(Message message)
     {
         context.Messages.Add(message);
@@ -34,7 +63,7 @@ public class MessageRepository(AppDbContext context) : IMessageRepository
         {
             "Outbox" => query.Where(x => x.SenderId == messageParams.MemberId
             && x.SenderDeleted == false),
-            _ => query.Where(x => x.RecipientId == messageParams.MemberId 
+            _ => query.Where(x => x.RecipientId == messageParams.MemberId
             && x.RecipientDeleted == false)
         };
 
@@ -48,23 +77,28 @@ public class MessageRepository(AppDbContext context) : IMessageRepository
 
     public async Task<IReadOnlyList<MessageDto>> GetMessageThread(string currentMemberId, string recipientId)
     {
-         await context.Messages
-            .Where(x => x.RecipientId == currentMemberId 
-                && x.SenderId== recipientId && x.DateRead == null)
-            .ExecuteUpdateAsync(setters => setters.SetProperty(x => x.DateRead, DateTime.UtcNow));
+        await context.Messages
+           .Where(x => x.RecipientId == currentMemberId
+               && x.SenderId == recipientId && x.DateRead == null)
+           .ExecuteUpdateAsync(setters => setters.SetProperty(x => x.DateRead, DateTime.UtcNow));
 
-       return await context.Messages
-            .Where(x => (x.RecipientId == currentMemberId && x.RecipientDeleted == false
-                && x.SenderId == recipientId)
-                || (x.SenderId == currentMemberId 
-                && x.SenderDeleted == false && x.RecipientId == recipientId))
-            .OrderBy(x => x.MessageSent)
-            .Select(MessageExtensions.ToDtoProjection())
-            .ToListAsync();
+        return await context.Messages
+             .Where(x => (x.RecipientId == currentMemberId && x.RecipientDeleted == false
+                 && x.SenderId == recipientId)
+                 || (x.SenderId == currentMemberId
+                 && x.SenderDeleted == false && x.RecipientId == recipientId))
+             .OrderBy(x => x.MessageSent)
+             .Select(MessageExtensions.ToDtoProjection())
+             .ToListAsync();
     }
 
     public async Task<bool> SaveAllAsync()
     {
         return await context.SaveChangesAsync() > 0;
+    }
+
+    Task IMessageRepository.RemoveConnection(string connectionId)
+    {
+        throw new NotImplementedException();
     }
 }
