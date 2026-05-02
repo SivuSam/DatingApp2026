@@ -32,12 +32,12 @@ export class MessageService {
     this.hubConnection.on('ReceiveMessageThread', (messages: Message[]) => {
       this.messageThread.set(messages.map(message => ({
           ...message,
-          currentUserSender: message.senderId !== otherUserId
+          currentUserSender: message.senderId === currentUser.id
         })))
     });
 
     this.hubConnection.on('NewMessage', (message: Message) => {
-    message.currentUserSender = message.senderId !== currentUser.id;
+    message.currentUserSender = message.senderId === currentUser.id;
     this.messageThread.update(messages => [...messages, message]);
     });
   }
