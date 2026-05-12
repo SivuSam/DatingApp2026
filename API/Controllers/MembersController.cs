@@ -73,7 +73,8 @@ namespace API.Controllers
             {
                 Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId,
-                MemberId = User.GetMemberId()
+                MemberId = User.GetMemberId(),
+                IsApproved = true
             };
 
             if (member.ImageUrl == null)

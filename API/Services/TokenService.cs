@@ -35,7 +35,7 @@ namespace API.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(7),
+                Expires = DateTime.UtcNow.AddDays(15),
                 SigningCredentials = creds
             };
 
@@ -44,7 +44,7 @@ namespace API.Services
 
             // Create the token
             var token = tokenHandler.CreateToken(tokenDescriptor);
-
+ 
             // Return the written token
             return tokenHandler.WriteToken(token);
         }
