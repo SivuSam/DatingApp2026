@@ -21,7 +21,9 @@ public class MessagesController(IUnitOfWork uow) : BaseApiController
         var message = new Message
         {
             SenderId = sender.Id,
+            Sender = sender,
             RecipientId = recipient.Id,
+            Recipient = recipient,
             Content = createMessageDto.Content
         };
 

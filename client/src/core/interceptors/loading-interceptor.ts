@@ -44,13 +44,13 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   }
   if (req.method === 'GET') {
     const cachedResponse = cache.get(cacheKey);
-    if (cachedResponse){
+    if (cachedResponse) {
       const isExpired = (Date.now() - cachedResponse.timestamp) > CACHE_DURATION_MS;
       if (!isExpired) {
-       return of(cachedResponse.response);
-    }else{
-      cache.delete(cacheKey);
-    }
+        return of(cachedResponse.response);
+      } else {
+        cache.delete(cacheKey);
+      }
     }
   } 
 

@@ -22,9 +22,9 @@ export class MemberDetailed implements OnInit {
   protected likesService = inject(LikesService);
   private router = inject(Router);
   protected title = signal<string|undefined>('Profile');
-  private routeId = signal<string | null>(null);
+  protected routeId = signal<string | null>(null);
   protected isCurrentUser = computed(()=> {
-    return this.accountService.currentUser()?.id===this.routeId();
+    return this.accountService.currentUser()?.id === this.routeId();  
   })
   protected hasLiked = computed(() => this.likesService.likeIds().includes(this.routeId()!));
 

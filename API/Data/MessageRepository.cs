@@ -13,6 +13,20 @@ public class MessageRepository(AppDbContext context) : IMessageRepository
     {
         context.Groups.Add(group);
     }
+     public void AddMessage(Message message)
+    {
+        context.Messages.Add(message);
+    }
+
+    public void DeleteMessage(Message message)
+    {
+        context.Messages.Remove(message);
+    }
+
+    public async Task<Message?> GetMessage(string messageId)
+    {
+        return await context.Messages.FindAsync(messageId);
+    }
 
     public async Task RemoveConnection(string connectionId)
     {
@@ -38,20 +52,7 @@ public class MessageRepository(AppDbContext context) : IMessageRepository
             .Where(g => g.Connections.Any(c => c.ConnectionId == connectionId))
             .FirstOrDefaultAsync();
     }
-    public void AddMessage(Message message)
-    {
-        context.Messages.Add(message);
-    }
-
-    public void DeleteMessage(Message message)
-    {
-        context.Messages.Remove(message);
-    }
-
-    public async Task<Message?> GetMessage(string messageId)
-    {
-        return await context.Messages.FindAsync(messageId);
-    }
+   
 
     public async Task<PaginatedResult<MessageDto>> GetMessagesForMember(MessageParams messageParams)
     {
@@ -86,15 +87,13 @@ public class MessageRepository(AppDbContext context) : IMessageRepository
              .Where(x => (x.RecipientId == currentMemberId && x.RecipientDeleted == false
                  && x.SenderId == recipientId)
                  || (x.SenderId == currentMemberId
-                 && x.SenderDeleted == false && x.RecipientId == recipientId))
+                 && x.SenderDeleted == false
+                && x.RecipientId == recipientId))
              .OrderBy(x => x.MessageSent)
              .Select(MessageExtensions.ToDtoProjection())
              .ToListAsync();
     }
 
 
-    Task IMessageRepository.RemoveConnection(string connectionId)
-    {
-        throw new NotImplementedException();
-    }
 }
+  
