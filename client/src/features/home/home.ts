@@ -1,3 +1,4 @@
+//Sivyile Tshabalala, Student Number:2018760260
 import { Component, inject, Input,signal } from '@angular/core';
 import { Register } from "../account/register/register";
 import { User } from '../../types/user';
