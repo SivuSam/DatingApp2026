@@ -30,7 +30,9 @@ public class AccountController(UserManager<AppUser> userManager, ITokenService t
                 Gender = registerDto.Gender,
                 City =  registerDto.City,
                 Country = registerDto.Country,
-                DateOfBirth = registerDto.DateOfBirth
+                DateOfBirth = registerDto.DateOfBirth,
+                
+                
 
             }
         };

@@ -1,5 +1,4 @@
-// CSIP6833 (2026)
-// SS. Tshabalala (2018760260)
+/*Initials: SS, Surname: Tshabalala, and Student Number: 2018760260*/
 using System.Text;
 using API.Data;
 using API.Entities;

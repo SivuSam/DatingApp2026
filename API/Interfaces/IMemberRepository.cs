@@ -10,5 +10,7 @@ namespace API.Interfaces
         Task<Member?> GetMemberByIdAsync(string id);
         Task<IReadOnlyList<Photo>> GetPhotosForMemberAsync(string memberId);
         Task<Member?>GetMemberForUpdate(string id);
+        Task<Member?> GetMemberForUpdateAsync(string userId);
+        Task<IEnumerable<Photo>> GetPhotosForMemberAsync(string userId, bool isCurrentUser);
     }
 }

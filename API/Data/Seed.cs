@@ -34,6 +34,7 @@ namespace API.Data
                     Member = new Member
                     {
                         Id = member.Id,
+                        MemberId= member.Id,
                         DisplayName = member.DisplayName,
                         Description = member.Description,
                         DateOfBirth = member.DateOfBirth,
@@ -49,7 +50,8 @@ namespace API.Data
                 user.Member.Photos.Add(new Photo
                 {
                     Url = member.ImageUrl!,
-                    MemberId = member.Id
+                    MemberId = member.Id,
+                    IsApproved = true
                 });
 
                 var result = await userManager.CreateAsync(user, "Pa$$w0rd");
@@ -60,14 +62,12 @@ namespace API.Data
                 }
                 await userManager.AddToRoleAsync(user, "Member");
             }
-
             var admin = new AppUser
             {
                 UserName = "admin@test.com",
                 Email = "admin@test.com",
                 DisplayName = "Admin"
             };
-
             await userManager.CreateAsync(admin, "Pa$$w0rd");
             await userManager.AddToRolesAsync(admin, ["Admin", "Moderator"]);
         }

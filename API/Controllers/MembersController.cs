@@ -34,7 +34,8 @@ namespace API.Controllers
          [HttpGet("{id}/photos")]
         public async Task<ActionResult<IReadOnlyList<Photo>>> GetMemberPhotos(string id)
         {
-            return Ok(await uow.MemberRepository.GetPhotosForMemberAsync(id));
+            var isCurrentUser = User.GetMemberId() == id;
+            return Ok(await uow.MemberRepository.GetPhotosForMemberAsync(id, isCurrentUser));
         }
          [HttpPut]
         public async Task<ActionResult> UpdateMember(MemberUpdateDto memberUpdateDto)
@@ -59,37 +60,24 @@ namespace API.Controllers
             return BadRequest("Failed to update member");
         }
         [HttpPost("add-photo")]
-        public async Task<ActionResult<Photo>> AddPhoto([FromForm]IFormFile file)
+        public async Task<ActionResult<Photo>> AddPhoto([FromForm] IFormFile file)
         {
-            var member = await uow.MemberRepository.GetMemberForUpdate(User.GetMemberId());
-
-            if (member == null) return BadRequest("Cannot update member");
-
+            var member = await uow.MemberRepository.GetMemberForUpdateAsync(User.GetMemberId());
+            if (member == null) return BadRequest("Cannot update user");
             var result = await photoService.UploadPhotoAsync(file);
-
             if (result.Error != null) return BadRequest(result.Error.Message);
-
             var photo = new Photo
             {
                 Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId,
                 MemberId = User.GetMemberId(),
-                IsApproved = true
+                IsApproved = false
             };
-
-            if (member.ImageUrl == null)
-            {
-                member.ImageUrl = photo.Url;
-                member.User.ImageUrl = photo.Url;
-            }
-
             member.Photos.Add(photo);
-
             if (await uow.Complete()) return photo;
-
             return BadRequest("Problem adding photo");
         }
-         
+
         [HttpPut("set-main-photo/{photoId}")]
         public async Task<ActionResult> SetMainPhoto(int photoId)
         {
@@ -138,8 +126,5 @@ namespace API.Controllers
 
             return BadRequest("Problem deleting the photo");
         }
-
-
-
     }
 }

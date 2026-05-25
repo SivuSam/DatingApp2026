@@ -15,4 +15,5 @@ public class SeedUserDto
     public string? Description { get; set; }
     public required string City { get; set; }
     public required string Country { get; set; }
+    
 }
