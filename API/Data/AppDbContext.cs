@@ -16,6 +16,8 @@ public class AppDbContext(DbContextOptions options) : IdentityDbContext<AppUser>
     public DbSet<Group> Groups { get; set; } 
     public DbSet<Connection> Connections { get; set; } 
 
+    public DbSet<MemberBlock> Blocks { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Photo>().HasQueryFilter(x => x.IsApproved);
@@ -27,6 +29,18 @@ public class AppDbContext(DbContextOptions options) : IdentityDbContext<AppUser>
             );
 
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<MemberBlock>()
+            .HasOne(b => b.SourceMember)
+            .WithMany()
+            .HasForeignKey(b => b.SourceMemberId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<MemberBlock>()
+            .HasOne(b => b.TargetMember)
+            .WithMany()
+            .HasForeignKey(b => b.TargetMemberId)
+            .OnDelete(DeleteBehavior.Restrict);
 
          modelBuilder.Entity<Message>()
                 .HasOne(x => x.Recipient)

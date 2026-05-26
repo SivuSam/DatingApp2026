@@ -68,6 +68,9 @@ public class MessageRepository(AppDbContext context) : IMessageRepository
             && x.RecipientDeleted == false)
         };
 
+        // Exclude blocked messages
+        query = API.Extensions.BlockQueryExtensions.ExcludeBlocked(query, context, messageParams.MemberId);
+
         var messageQuery = query.Select(MessageExtensions.ToDtoProjection());
 
         return await PaginationHelper.CreateAsync(messageQuery, messageParams.PageNumber,
@@ -83,15 +86,21 @@ public class MessageRepository(AppDbContext context) : IMessageRepository
                && x.SenderId == recipientId && x.DateRead == null)
            .ExecuteUpdateAsync(setters => setters.SetProperty(x => x.DateRead, DateTime.UtcNow));
 
-        return await context.Messages
-             .Where(x => (x.RecipientId == currentMemberId && x.RecipientDeleted == false
-                 && x.SenderId == recipientId)
-                 || (x.SenderId == currentMemberId
-                 && x.SenderDeleted == false
+        var query = context.Messages
+            .Where(x => (x.RecipientId == currentMemberId && x.RecipientDeleted == false
+                && x.SenderId == recipientId)
+                || (x.SenderId == currentMemberId
+                && x.SenderDeleted == false
                 && x.RecipientId == recipientId))
-             .OrderBy(x => x.MessageSent)
-             .Select(MessageExtensions.ToDtoProjection())
-             .ToListAsync();
+            .OrderBy(x => x.MessageSent)
+            .AsQueryable();
+
+        // Exclude blocked messages
+        query = API.Extensions.BlockQueryExtensions.ExcludeBlocked(query, context, currentMemberId);
+
+        return await query
+            .Select(MessageExtensions.ToDtoProjection())
+            .ToListAsync();
     }
 
 

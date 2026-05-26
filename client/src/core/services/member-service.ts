@@ -1,3 +1,13 @@
+    getBlockedMembers() {
+      return this.http.get<any[]>(this.baseUrl + 'blocks');
+    }
+
+    unblockMember(targetId: string) {
+      return this.http.delete(this.baseUrl + 'blocks/' + targetId);
+    }
+  blockMember(targetId: string) {
+    return this.http.post(this.baseUrl + 'blocks/' + targetId, {});
+  }
 import { HttpClient, HttpParams, } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { EditableMember, Member, MemberParams, Photo } from '../../types/member';

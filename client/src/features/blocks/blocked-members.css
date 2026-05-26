@@ -1,0 +1,19 @@
+.blocked-members-container {
+  padding: 2rem;
+}
+.blocked-member-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.name {
+  font-weight: bold;
+}
+.reason {
+  color: #888;
+}
+.date {
+  color: #aaa;
+  font-size: 0.9em;
+}

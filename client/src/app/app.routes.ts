@@ -10,6 +10,7 @@ import { NotFound } from '../shared/errors/not-found/not-found';
 import { ServerError } from '../shared/errors/server-error/server-error';
 import { Features } from '../features/features/features';
 import { MemberProfile } from '../features/members/member-profile/member-profile';
+import { BlockedMembersComponent } from '../features/blocks/blocked-members';
 import { MemberPhotos } from '../features/members/member-photos/member-photos';
 import { MemberMessages } from '../features/members/member-messages/member-messages';
 import { memberResolver } from '../features/members/member-resolver-resolver';
@@ -42,6 +43,7 @@ export const routes: Routes = [
                 ]
             },
             { path: 'lists', component: Lists },
+            { path: 'blocked-members', component: BlockedMembersComponent },
             { path: 'messages', component: Messages },
             { path: 'admin', component: Admin, canActivate: [adminGuard]},
 

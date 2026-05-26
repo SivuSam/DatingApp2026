@@ -1,0 +1,12 @@
+<div class="blocked-members-container">
+  <h2>Blocked Members</h2>
+  <div *ngIf="blockedMembers.length === 0">No blocked members.</div>
+  <ul *ngIf="blockedMembers.length > 0">
+    <li *ngFor="let member of blockedMembers" class="blocked-member-item">
+      <span class="name">{{ member.DisplayName }}</span>
+      <span class="reason">Reason: {{ member.Reason || 'No reason provided' }}</span>
+      <span class="date">Blocked: {{ member.DateBlocked | date:'short' }}</span>
+      <button class="btn btn-danger" (click)="unblockMember(member.Id)">Unblock</button>
+    </li>
+  </ul>
+</div>

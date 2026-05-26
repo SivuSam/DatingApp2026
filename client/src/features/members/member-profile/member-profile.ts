@@ -60,6 +60,18 @@ export class MemberProfile implements OnInit ,OnDestroy{
     this.toast.success('Profile updated succesfully');
     this.memberService.editMode.set(false);
   }
+
+  blockMember(targetId: string) {
+    this.memberService.blockMember(targetId).subscribe({
+      next: () => {
+        this.toast.success('Member blocked successfully');
+        this.router.navigate(['/matches']);
+      },
+      error: () => {
+        this.toast.error('Failed to block member');
+      }
+    });
+  }
   ngOnDestroy(): void {
      if (this.memberService.editMode()) {
       this.memberService.editMode.set(false);

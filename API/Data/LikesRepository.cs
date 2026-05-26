@@ -41,12 +41,14 @@ public class LikesRepository(AppDbContext context) : ILikesRepository
                 result = query
                     .Where(like => like.SourceMemberId == likesParams.MemberId)
                     .Select(like => like.TargetMember);
-                    break;
+                result = API.Extensions.BlockQueryExtensions.ExcludeBlocked(result, context, likesParams.MemberId);
+                break;
             case "likedBy":
                 result = query
                     .Where(like => like.TargetMemberId == likesParams.MemberId)
                     .Select(like => like.SourceMember);
-                    break;                   
+                result = API.Extensions.BlockQueryExtensions.ExcludeBlocked(result, context, likesParams.MemberId);
+                break;                   
             default: // mutual
                 var likeIds = await GetCurrentMemberLikeIds(likesParams.MemberId);
 
@@ -54,8 +56,8 @@ public class LikesRepository(AppDbContext context) : ILikesRepository
                     .Where(x => x.TargetMemberId == likesParams.MemberId 
                         && likeIds.Contains(x.SourceMemberId))
                     .Select(x => x.SourceMember);
-                    break;
-                   
+                result = API.Extensions.BlockQueryExtensions.ExcludeBlocked(result, context, likesParams.MemberId);
+                break;
         }
         return await PaginationHelper.CreateAsync(result, 
         likesParams.PageNumber, likesParams.PageSize);
