@@ -15,7 +15,7 @@ export class AdminService {
     return this.http.get<User[]>(this.baseUrl + 'admin/users-with-roles');
   }
 
-  getPhotosForModeration() {
+  getPhotosForApproval() {
     return this.http.get<Photo[]>(this.baseUrl + 'admin/photos-to-moderate');
   }
 

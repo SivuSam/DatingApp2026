@@ -12,10 +12,10 @@ export class PhotoManagement {
   photos = signal<Photo[]>([]);
   private adminService = inject(AdminService);
   ngOnInit(): void {
-    this.getPhotosForModeration();
+    this.getPhotosForApproval();
   }
-  getPhotosForModeration() {
-    this.adminService.getPhotosForModeration().subscribe({
+  getPhotosForApproval() {
+    this.adminService.getPhotosForApproval().subscribe({
       next: photos => this.photos.set(photos)
     })
   }
@@ -34,3 +34,4 @@ export class PhotoManagement {
     })
   }
 }
+

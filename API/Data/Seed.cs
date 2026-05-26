@@ -34,7 +34,6 @@ namespace API.Data
                     Member = new Member
                     {
                         Id = member.Id,
-                        MemberId= member.Id,
                         DisplayName = member.DisplayName,
                         Description = member.Description,
                         DateOfBirth = member.DateOfBirth,

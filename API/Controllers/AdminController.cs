@@ -57,8 +57,6 @@ public class AdminController(UserManager<AppUser> userManager, IUnitOfWork uow, 
         return Ok(await userManager.GetRolesAsync(user));
     }
 
-
-
     [Authorize(Policy = "ModeratePhotoRole")]
     [HttpGet("photos-to-moderate")]
     public async Task<ActionResult<IEnumerable<PhotoForApprovalDto>>> GetPhotosForModeration()

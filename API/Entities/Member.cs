@@ -16,7 +16,6 @@ public class Member
     public string? Description { get; set; }
     public required string City { get; set; }
     public required string Country { get; set; }
-   
 
     //Navigation property
     [JsonIgnore]
@@ -31,7 +30,7 @@ public class Member
     public List<Message> MessagesReceived { get; set; } = [];
 
     [JsonIgnore]
-    [ForeignKey(nameof(Id))]
+    [ForeignKey(nameof(MemberId))]
     public AppUser User { get; set; } = null!;
     public string MemberId { get; set; }= null!;
 }

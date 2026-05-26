@@ -8,9 +8,9 @@
                             src="{{photo.url}}" 
                             alt="photo of member" 
                             class="w-full rounded-lg"
-                            [style.opacity]="photo.isApproved ? '1' : '0.2'">
+                            [class.opacity-20]="!photo.isApproved">
                         @if (!photo.isApproved) {
-                            <div class="absolute bottom-2 left-2 badge badge-outline badge-error text-sm">
+                            <div class="absolute bottom-2 badge badge-outline badge-error">
                                 Awaiting approval
                             </div>
                         }

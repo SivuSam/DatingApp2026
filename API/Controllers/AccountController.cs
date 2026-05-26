@@ -32,10 +32,10 @@ public class AccountController(UserManager<AppUser> userManager, ITokenService t
                 Country = registerDto.Country,
                 DateOfBirth = registerDto.DateOfBirth,
                 
-                
-
             }
         };
+
+        
 
         var result = await userManager.CreateAsync(user, registerDto.Password);
 

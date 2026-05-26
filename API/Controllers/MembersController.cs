@@ -31,13 +31,13 @@ namespace API.Controllers
 
             return member;
         }
-         [HttpGet("{id}/photos")]
+        [HttpGet("{id}/photos")]
         public async Task<ActionResult<IReadOnlyList<Photo>>> GetMemberPhotos(string id)
         {
             var isCurrentUser = User.GetMemberId() == id;
             return Ok(await uow.MemberRepository.GetPhotosForMemberAsync(id, isCurrentUser));
         }
-         [HttpPut]
+        [HttpPut]
         public async Task<ActionResult> UpdateMember(MemberUpdateDto memberUpdateDto)
         {
             var memberId = User.GetMemberId();
@@ -71,23 +71,41 @@ namespace API.Controllers
                 Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId,
                 MemberId = User.GetMemberId(),
-                IsApproved = false
             };
             member.Photos.Add(photo);
             if (await uow.Complete()) return photo;
             return BadRequest("Problem adding photo");
         }
+        [Authorize(Policy = "ModeratePhotoRole")]
+        [HttpPost("approve-photo/{photoId}")]
+        public async Task<ActionResult> ApprovePhoto(int photoId)
+        {
+            var photo = await uow.PhotoRepository.GetPhotoById(photoId);
+            if (photo == null) return BadRequest("Could not get photo from db");
+            var member = await uow.MemberRepository.GetMemberForUpdate(photo.MemberId);
+            if (member == null) return BadRequest("Could not get member");
+            photo.IsApproved = true;
+            if (member.ImageUrl == null)
+            {
+                member.ImageUrl = photo.Url;
+                member.User.ImageUrl = photo.Url;
+            }
+            await uow.Complete();
+            return Ok();
+        }
+
 
         [HttpPut("set-main-photo/{photoId}")]
         public async Task<ActionResult> SetMainPhoto(int photoId)
         {
             var member = await uow.MemberRepository.GetMemberForUpdate(User.GetMemberId());
 
-            if (member == null) return BadRequest("Cannot gett member from token");
+            if (member == null) return BadRequest("Cannot get member from token");
 
             var photo = member.Photos.SingleOrDefault(x => x.Id == photoId);
 
-            if (member.ImageUrl == photo?.Url || photo == null)
+            // Only allow setting an approved photo as main
+            if (photo == null || !photo.IsApproved)
             {
                 return BadRequest("Cannot set this as main image");
             }
