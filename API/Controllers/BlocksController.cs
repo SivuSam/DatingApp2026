@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using API.DTOs;
 
+
 namespace API.Controllers
 {
     [Authorize(Roles = "VIP")]
@@ -59,9 +60,9 @@ namespace API.Controllers
                 .Include(b => b.TargetMember)
                 .Select(b => new {
                     Id = b.TargetMemberId,
-                    DisplayName = b.TargetMember.User.DisplayName,
-                    Reason = b.Reason,
-                    DateBlocked = b.DateBlocked
+                    displayName = b.TargetMember.User.DisplayName,
+                    reason = b.Reason,
+                    dateBlocked = b.DateBlocked
                 })
                 .ToListAsync();
             return Ok(blocks);
@@ -78,6 +79,7 @@ namespace API.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+        
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateBlockReason(string id, BlockReasonDto dto)
         {

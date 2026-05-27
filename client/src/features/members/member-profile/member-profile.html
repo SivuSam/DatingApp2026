@@ -12,7 +12,7 @@
         <!-- Block button for VIP users (not on own profile), green, at the bottom under About -->
         <ng-container *ngIf="accountService.currentUser() as user">
           <div *ngIf="user.roles?.includes('VIP') && member.id !== user.id" class="flex w-full justify-end mt-2">
-            <button class="btn btn-success w-full" style="background-color:#22c55e; color:#fff;" (click)="openBlockModal(member.id)">Block</button>
+            
           </div>
         </ng-container>
                 @if (memberService.editMode()) {

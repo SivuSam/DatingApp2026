@@ -75,10 +75,10 @@ export class MemberService {
     });
   }
 
-  updateBlockReason(targetId: string, reason: string) {
-    return this.http.put(this.baseUrl + 'blocks/' + targetId, {
-      reason
-    });
-  }
+  updateBlockReason(id: string, reason: string) {
+  return this.http.put(this.baseUrl + 'blocks/' + id, {
+    reason
+  });
+}
 
 }

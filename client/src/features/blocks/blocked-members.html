@@ -1,15 +1,23 @@
 <div class="blocked-members-container">
-  <h2>Blocked Members</h2>
-  <div *ngIf="blockedMembers.length === 0">No blocked members.</div>
-  <ul *ngIf="blockedMembers.length > 0">
-    <li *ngFor="let member of blockedMembers" style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;">
-      <img [src]="member.imageUrl" alt="Profile" style="width:48px;height:48px;border-radius:50%;object-fit:cover;" />
-      <div>
-        <span class="name">{{ member.displayName }}</span>
-        <span class="reason">Reason: {{ member.reason || 'No reason provided' }}</span>
-        <span class="date">Blocked: {{ member.dateBlocked | date:'short' }}</span>
-      </div>
-      <button class="btn btn-success unblock-btn" (click)="unblockMember(member.id)">Unblock</button>
-    </li>
-  </ul>
+    <h2>Blocked Members</h2>
+    <div *ngIf="blockedMembers.length === 0">No blocked members.</div>
+    <ul *ngIf="blockedMembers.length > 0">
+        <li *ngFor="let member of blockedMembers"
+            style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;">
+            <img [src]="member.imageUrl" alt="Profile"
+                style="width:48px;height:48px;border-radius:50%;object-fit:cover;" />
+            <div>
+                <span class="name">{{ member.displayName }}</span>
+                <span class="reason">Reason: {{ member.reason || 'No reason provided' }}</span>
+                <span class="date">Blocked: {{ member.dateBlocked | date:'short' }}</span>
+            </div>
+            <button class="btn btn-warning" (click)="openEditModal(member)">
+                Edit
+            </button>
+
+            <button class="btn btn-success" (click)="unblockMember(member.id)">
+                Unblock
+            </button>
+        </li>
+    </ul>
 </div>

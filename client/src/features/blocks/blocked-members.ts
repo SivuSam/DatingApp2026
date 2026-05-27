@@ -17,6 +17,10 @@ export class BlockedMembersComponent implements OnInit {
   private accountService = inject(AccountService);
   private toast = inject(ToastService);
 
+  showEditModal = false;
+  selectedMemberId = '';
+  selectedReason = '';
+
   ngOnInit(): void {
     this.loadBlockedMembers();
   }
@@ -36,5 +40,25 @@ export class BlockedMembersComponent implements OnInit {
       },
       error: () => this.toast.error('Failed to unblock member'),
     });
+  }
+   openEditModal(member: any) {
+    this.selectedMemberId = member.id;
+    this.selectedReason = member.reason || '';
+    this.showEditModal = true;
+  }
+
+  confirmEdit(reason: string) {
+    this.memberService
+      .updateBlockReason(this.selectedMemberId, reason)
+      .subscribe({
+        next: () => {
+          this.toast.success('Block reason updated');
+          this.showEditModal = false;
+          this.loadBlockedMembers();
+        },
+        error: () => {
+          this.toast.error('Failed to update reason');
+        },
+      });
   }
 }
