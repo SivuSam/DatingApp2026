@@ -25,10 +25,15 @@ public class AppDbContext(DbContextOptions options) : IdentityDbContext<AppUser>
             .HasData(
                 new IdentityRole{Id = "member-id", ConcurrencyStamp = "a", Name = "Member", NormalizedName = "MEMBER"},
                 new IdentityRole{Id = "moderator-id", ConcurrencyStamp = "b", Name = "Moderator", NormalizedName = "MODERATOR"},
-                new IdentityRole{Id = "admin-id", ConcurrencyStamp = "c", Name = "Admin", NormalizedName = "ADMIN"}
+                new IdentityRole{Id = "admin-id", ConcurrencyStamp = "c", Name = "Admin", NormalizedName = "ADMIN"},
+                new IdentityRole{Id = "vip-id", ConcurrencyStamp = "d", Name = "VIP", NormalizedName = "VIP"}
             );
 
         base.OnModelCreating(modelBuilder);
+
+
+        modelBuilder.Entity<MemberBlock>()
+            .HasKey(k => new { k.SourceMemberId, k.TargetMemberId });
 
         modelBuilder.Entity<MemberBlock>()
             .HasOne(b => b.SourceMember)

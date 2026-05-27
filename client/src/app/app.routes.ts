@@ -46,6 +46,7 @@ export const routes: Routes = [
             { path: 'blocked-members', component: BlockedMembersComponent },
             { path: 'messages', component: Messages },
             { path: 'admin', component: Admin, canActivate: [adminGuard]},
+            {path: 'blocked-members', component: BlockedMembersComponent}
 
         ]
     },

@@ -3,17 +3,52 @@
 }
 .blocked-member-item {
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  max-width: 350px;
+}
+.blocked-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+.blocked-info {
+  width: 100%;
+  margin-bottom: 0.5rem;
 }
 .name {
   font-weight: bold;
+  display: block;
+  margin-bottom: 0.2rem;
 }
 .reason {
+  font-weight: bold;
   color: #888;
+  display: block;
+  margin-bottom: 0.2rem;
 }
 .date {
+  font-weight: bold;
   color: #aaa;
   font-size: 0.9em;
+  display: block;
+}
+.blocked-actions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.unblock-btn {
+  background-color: #22c55e !important;
+  color: #fff !important;
+  border: none;
+  margin-top: 0.5rem;
 }

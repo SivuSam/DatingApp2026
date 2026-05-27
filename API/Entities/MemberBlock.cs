@@ -4,12 +4,12 @@ namespace API.Entities
 {
     public class MemberBlock
     {
-        public int Id { get; set; }
-        public string SourceMemberId { get; set; }
-        public AppUser SourceMember { get; set; }
-        public string TargetMemberId { get; set; }
-        public AppUser TargetMember { get; set; }
-        public string Reason { get; set; } // Optional for now
+        
+        public required string SourceMemberId { get; set; }
+        public Member SourceMember { get; set; } = null!;
+        public required string TargetMemberId { get; set; }
+        public Member TargetMember { get; set; } = null!;
+        public string? Reason { get; set; } 
         public DateTime DateBlocked { get; set; } = DateTime.UtcNow;
     }
 }

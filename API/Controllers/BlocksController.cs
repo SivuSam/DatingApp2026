@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using API.DTOs;
 
 namespace API.Controllers
 {
@@ -19,28 +20,35 @@ namespace API.Controllers
         }
 
         [HttpPost("{id}")]
-        public async Task<ActionResult> BlockMember(string id)
+        public async Task<ActionResult> BlockMember(string id, BlockReasonDto dto)
         {
             var sourceId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (sourceId == id) return BadRequest("You cannot block yourself.");
+            if (sourceId == id)
+                return BadRequest("You cannot block yourself.");
 
             var existingBlock = await _context.Blocks
-                .FirstOrDefaultAsync(b => b.SourceMemberId == sourceId && b.TargetMemberId == id);
+                .FirstOrDefaultAsync(b =>
+                    b.SourceMemberId == sourceId &&
+                    b.TargetMemberId == id);
 
-            if (existingBlock != null) return BadRequest("Member already blocked.");
+            if (existingBlock != null)
+                return BadRequest("Member already blocked.");
 
             var block = new MemberBlock
             {
-                SourceMemberId = sourceId,
+
+                SourceMemberId = sourceId!,
                 TargetMemberId = id,
-                Reason = "" // For now, empty
+                Reason = dto.Reason.Trim()
             };
 
             _context.Blocks.Add(block);
-            await _context.SaveChangesAsync();
 
-            return Ok();
+            if (await _context.SaveChangesAsync() > 0)
+                return Ok();
+
+            return BadRequest("Failed to block member");
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<object>>> GetBlockedMembers()
@@ -69,6 +77,26 @@ namespace API.Controllers
             _context.Blocks.Remove(block);
             await _context.SaveChangesAsync();
             return NoContent();
+        }
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateBlockReason(string id, BlockReasonDto dto)
+        {
+            var sourceId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var block = await _context.Blocks
+                .FirstOrDefaultAsync(b =>
+                    b.SourceMemberId == sourceId &&
+                    b.TargetMemberId == id);
+
+            if (block == null)
+                return NotFound();
+
+            block.Reason = dto.Reason.Trim();
+
+            if (await _context.SaveChangesAsync() > 0)
+                return NoContent();
+
+            return BadRequest("Failed to update reason");
         }
     }
 }

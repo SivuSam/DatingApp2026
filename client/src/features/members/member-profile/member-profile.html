@@ -8,13 +8,13 @@
             <span class="font-semibold">Last active:</span>
             <span>{{member.lastActive | timeAgo}}</span>
         </div>
-        <h3 class="text-lg font-semibold text-primary">About {{member.displayName}}</h3>
-                <!-- Block button for VIP users (not on own profile) -->
-                <ng-container *ngIf="accountService.currentUser() as user">
-                    <button *ngIf="user.roles?.includes('VIP') && member.id !== user.id" class="btn btn-danger mb-2" (click)="blockMember(member.id)">
-                        Block
-                    </button>
-                </ng-container>
+        <h3 class="text-lg font-semibold text-primary mb-2">About {{member.displayName}}</h3>
+        <!-- Block button for VIP users (not on own profile), green, at the bottom under About -->
+        <ng-container *ngIf="accountService.currentUser() as user">
+          <div *ngIf="user.roles?.includes('VIP') && member.id !== user.id" class="flex w-full justify-end mt-2">
+            <button class="btn btn-success w-full" style="background-color:#22c55e; color:#fff;" (click)="openBlockModal(member.id)">Block</button>
+          </div>
+        </ng-container>
                 @if (memberService.editMode()) {
             <form #editForm="ngForm" (ngSubmit)="updateProfile()" class="flex flex-col w-full gap-4">
                 <label class="floating-label">
@@ -58,7 +58,14 @@
             </form>
         } @else {
             <div>{{member.description || 'No description provided yet'}}</div>
+            <app-block-reason-modal
+  [visible]="showBlockModal"
+  title="Block Member"
+  [initialReason]="''"
+  (confirm)="confirmBlock($event)"
+  (cancel)="showBlockModal = false">
+</app-block-reason-modal>
         }
-        
     </div>
 }
+

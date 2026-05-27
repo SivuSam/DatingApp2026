@@ -220,6 +220,32 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Blocks",
+                columns: table => new
+                {
+                    SourceMemberId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TargetMemberId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateBlocked = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Blocks", x => new { x.SourceMemberId, x.TargetMemberId });
+                    table.ForeignKey(
+                        name: "FK_Blocks_Members_SourceMemberId",
+                        column: x => x.SourceMemberId,
+                        principalTable: "Members",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Blocks_Members_TargetMemberId",
+                        column: x => x.TargetMemberId,
+                        principalTable: "Members",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Likes",
                 columns: table => new
                 {
@@ -301,7 +327,8 @@ namespace API.Data.Migrations
                 {
                     { "admin-id", "c", "Admin", "ADMIN" },
                     { "member-id", "a", "Member", "MEMBER" },
-                    { "moderator-id", "b", "Moderator", "MODERATOR" }
+                    { "moderator-id", "b", "Moderator", "MODERATOR" },
+                    { "vip-id", "d", "VIP", "VIP" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -342,6 +369,11 @@ namespace API.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Blocks_TargetMemberId",
+                table: "Blocks",
+                column: "TargetMemberId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Connections_GroupName",
@@ -392,6 +424,9 @@ namespace API.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Blocks");
 
             migrationBuilder.DropTable(
                 name: "Connections");

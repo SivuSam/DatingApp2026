@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260526084634_PhotoApprovalAdded")]
+    [Migration("20260527030455_PhotoApprovalAdded")]
     partial class PhotoApprovalAdded
     {
         /// <inheritdoc />
@@ -181,6 +181,27 @@ namespace API.Data.Migrations
                     b.ToTable("Members");
                 });
 
+            modelBuilder.Entity("API.Entities.MemberBlock", b =>
+                {
+                    b.Property<string>("SourceMemberId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("TargetMemberId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateBlocked")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Reason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SourceMemberId", "TargetMemberId");
+
+                    b.HasIndex("TargetMemberId");
+
+                    b.ToTable("Blocks");
+                });
+
             modelBuilder.Entity("API.Entities.MemberLike", b =>
                 {
                     b.Property<string>("SourceMemberId")
@@ -310,6 +331,13 @@ namespace API.Data.Migrations
                             ConcurrencyStamp = "c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "vip-id",
+                            ConcurrencyStamp = "d",
+                            Name = "VIP",
+                            NormalizedName = "VIP"
                         });
                 });
 
@@ -439,6 +467,25 @@ namespace API.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("API.Entities.MemberBlock", b =>
+                {
+                    b.HasOne("API.Entities.Member", "SourceMember")
+                        .WithMany()
+                        .HasForeignKey("SourceMemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Member", "TargetMember")
+                        .WithMany()
+                        .HasForeignKey("TargetMemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("SourceMember");
+
+                    b.Navigation("TargetMember");
                 });
 
             modelBuilder.Entity("API.Entities.MemberLike", b =>

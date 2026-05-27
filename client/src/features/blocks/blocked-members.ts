@@ -2,11 +2,14 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MemberService } from '../../core/services/member-service';
 import { AccountService } from '../../core/services/account-service';
 import { ToastService } from '../../core/services/toast-service';
+import { CommonModule, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-blocked-members',
   templateUrl: './blocked-members.html',
   styleUrl: './blocked-members.css',
+  standalone: true,
+  imports: [CommonModule, DatePipe]
 })
 export class BlockedMembersComponent implements OnInit {
   blockedMembers: any[] = [];

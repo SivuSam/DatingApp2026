@@ -12,7 +12,7 @@ export class UserManagement implements OnInit {
   @ViewChild('rolesModal') rolesModal!: ElementRef<HTMLDialogElement>;
   private adminService = inject(AdminService);
   protected users = signal<User[]>([]);
-  protected availableRoles = ['Admin', 'Moderator', 'Member'];
+  protected availableRoles = ['Admin', 'Moderator', 'Member', 'VIP'];
   protected selectedUser :User | null = null;
 
   ngOnInit(): void {  

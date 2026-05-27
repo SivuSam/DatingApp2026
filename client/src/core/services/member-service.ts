@@ -1,13 +1,4 @@
-    getBlockedMembers() {
-      return this.http.get<any[]>(this.baseUrl + 'blocks');
-    }
 
-    unblockMember(targetId: string) {
-      return this.http.delete(this.baseUrl + 'blocks/' + targetId);
-    }
-  blockMember(targetId: string) {
-    return this.http.post(this.baseUrl + 'blocks/' + targetId, {});
-  }
 import { HttpClient, HttpParams, } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { EditableMember, Member, MemberParams, Photo } from '../../types/member';
@@ -22,10 +13,10 @@ import { PaginatedResult } from '../../types/pagination';
 export class MemberService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
-  editMode=signal(false);
+  editMode = signal(false);
   member = signal<Member | null>(null);
 
-  getMembers(memberParams:MemberParams) {
+  getMembers(memberParams: MemberParams) {
     let params = new HttpParams();
 
     params = params.append('pageNumber', memberParams.pageNumber);
@@ -33,9 +24,9 @@ export class MemberService {
     params = params.append('minAge', memberParams.minAge);
     params = params.append('maxAge', memberParams.maxAge);
     params = params.append('orderBy', memberParams.orderBy);
-    if(memberParams.gender) params = params.append('gender', memberParams.gender);
+    if (memberParams.gender) params = params.append('gender', memberParams.gender);
 
-    return this.http.get<PaginatedResult<Member>>(this.baseUrl + 'members', {params}).pipe(
+    return this.http.get<PaginatedResult<Member>>(this.baseUrl + 'members', { params }).pipe(
       tap(() => {
         localStorage.setItem('filters', JSON.stringify(memberParams));
       })
@@ -49,26 +40,45 @@ export class MemberService {
       })
     )
   }
-  
+
   getMemberPhotos(id: string) {
     return this.http.get<Photo[]>(this.baseUrl + 'members/' + id + '/photos');
   }
 
-   updateMember(member: EditableMember) {
+  updateMember(member: EditableMember) {
     return this.http.put(this.baseUrl + 'members', member);
   }
 
-   uploadPhoto(file: File) {
+  uploadPhoto(file: File) {
     const formData = new FormData();
     formData.append('file', file);
     return this.http.post<Photo>(this.baseUrl + 'members/add-photo', formData);
   }
-   setMainPhoto(photo: Photo) {
+  setMainPhoto(photo: Photo) {
     return this.http.put(this.baseUrl + 'members/set-main-photo/' + photo.id, {});
   }
 
- deletePhoto(photoId: number) {
+  deletePhoto(photoId: number) {
     return this.http.delete(this.baseUrl + 'members/delete-photo/' + photoId);
   }
-  
+  getBlockedMembers() {
+    return this.http.get<any[]>(this.baseUrl + 'blocks');
+  }
+
+  unblockMember(targetId: string) {
+    return this.http.delete(this.baseUrl + 'blocks/' + targetId);
+  }
+
+  blockMember(targetId: string, reason: string) {
+    return this.http.post(this.baseUrl + 'blocks/' + targetId, {
+      reason
+    });
+  }
+
+  updateBlockReason(targetId: string, reason: string) {
+    return this.http.put(this.baseUrl + 'blocks/' + targetId, {
+      reason
+    });
+  }
+
 }
